@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Game Event Producer</h1>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="event">Event:</label>
+        <input type="text" id="event" name="event" required>
+    </div>
+    <button type="submit">Publish Event</button>
+</form>
+{% endblock %}
