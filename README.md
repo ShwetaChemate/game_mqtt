@@ -16,7 +16,7 @@ This project implements a real-time game notification system using MQTT protocol
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/game-mqtt.git
+   git clone https://github.com/ShwetaChemate/game_mqtt.git
    cd game-mqtt
    ```
 
