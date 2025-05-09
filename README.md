@@ -65,6 +65,9 @@ This project implements a real-time game notification system using MQTT protocol
 
 3. Access the application at:
    - Main page: http://localhost:8000
+     
+     <img width="417" alt="Screenshot 2025-05-09 at 6 22 25 PM" src="https://github.com/user-attachments/assets/b2ca3b26-5ff5-4ad1-bdc0-b0c31d9df1c5" />
+
    - Admin: http://localhost:8000/admin
 
 ## 🎮 Using the System
@@ -73,8 +76,13 @@ This project implements a real-time game notification system using MQTT protocol
 1. Log in at http://localhost:8000/login
 2. Navigate to Publisher dashboard
 3. Enter game events in format: `game started`, `level completed`, etc.
+   
+   <img width="444" alt="Screenshot 2025-05-09 at 6 23 23 PM" src="https://github.com/user-attachments/assets/3a2bbc9e-1eca-4c73-8daa-f36ee90d3bae" />
 
 ### For Players (Consumers)
 1. Log in with your credentials
 2. View real-time notifications at Consumer dashboard
 3. Notifications appear in format: `prosumio username event`
+   
+   <img width="502" alt="Screenshot 2025-05-09 at 6 22 16 PM" src="https://github.com/user-attachments/assets/03b636da-481a-45ae-bbf0-19c93cf8c02e" />
+
