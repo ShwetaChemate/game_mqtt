@@ -84,5 +84,5 @@ This project implements a real-time game notification system using MQTT protocol
 2. View real-time notifications at Consumer dashboard
 3. Notifications appear in format: `prosumio username event`
    
-   <img width="502" alt="Screenshot 2025-05-09 at 6 22 16 PM" src="https://github.com/user-attachments/assets/03b636da-481a-45ae-bbf0-19c93cf8c02e" />
+   <img width="442" alt="Screenshot 2025-05-09 at 6 27 45 PM" src="https://github.com/user-attachments/assets/0809e68d-e3cf-40ea-9b63-14c6617d3f0e" />
 
