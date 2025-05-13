@@ -2,26 +2,41 @@ import paho.mqtt.client as mqtt
 from django.conf import settings
 import logging
 import time
-
+import threading
 from notifications.models import GameEvent
 from django.contrib.auth import get_user_model
-User = get_user_model()
 
 logger = logging.getLogger(__name__)
+User = get_user_model()
 
 class MQTTClient:
+    _instance = None
+    _lock = threading.Lock()  # Thread-safe singleton
+
+    def __new__(cls):
+        with cls._lock:
+            if not cls._instance:
+                cls._instance = super().__new__(cls)
+                cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
+
         self.topic = "game/notifications"
         self.client = mqtt.Client()
-        # Clear any retained messages
-        self.client.will_set(self.topic, None, qos=0, retain=True)
+        self.client.will_set(self.topic, None, qos=0, retain=False)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.client.on_publish = self._on_publish
         self.client.on_disconnect = self.on_disconnect
+
         self.connected = False
         self.connection_attempts = 0
         self.max_attempts = 3
+        self.connect()
 
     def _on_publish(self, client, userdata, mid, properties=None):
         """Fixed to match Paho MQTT's expected signature"""
@@ -76,6 +91,9 @@ class MQTTClient:
                 time.sleep(2)  # Wait before next attempt
 
     def connect(self):
+        if self.connected:
+            return True  # Already connected
+
         try:
             logger.info(f"Connecting to {settings.MQTT_BROKER}:{settings.MQTT_PORT}...")
             self.client.connect(
@@ -83,13 +101,10 @@ class MQTTClient:
                 port=settings.MQTT_PORT,
                 keepalive=60
             )
-            # Use clean session to prevent message buffering
-            self.client.reconnect_delay_set(min_delay=1, max_delay=120)
-            self.client.loop_start()
-            time.sleep(1)
-            return self.connected
+            self.client.loop_start()  # Start network loop once
+            return True
         except Exception as e:
-            logger.error(f"Connection error: {str(e)}")
+            logger.error(f"Initial connection error: {str(e)}")
             return False
 
     def on_message(self, client, userdata, msg):
